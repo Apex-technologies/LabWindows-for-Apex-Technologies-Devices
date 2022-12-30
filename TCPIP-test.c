@@ -25,7 +25,7 @@ static ViUInt16 portNo;
 
 int main(void)
 {
-	//char idnQuery[] = "*IDN?\n";
+	char idnQuery[] = "*IDN?\n";
 	
 	char Query1[40]="TLS[01]:TPDB09\n";     // please fill in the SCPI commands in correct format in the ""
 
@@ -49,19 +49,20 @@ int main(void)
       viClose(defaultRM);
       exit (EXIT_FAILURE);
    }
-    status = viClear(instr);
+    status = viClear(instr);   //clear
    
 	 status = viSetAttribute(instr, VI_ATTR_TERMCHAR, 10);
      status = viSetAttribute(instr, VI_ATTR_TERMCHAR_EN, 1);        
 
-    //status = viWrite(instr, (ViBuf)idnQuery, (ViUInt32)strlen(idnQuery), VI_NULL); //command for visa write operation
+    status = viWrite(instr, (ViBuf)idnQuery, (ViUInt32)strlen(idnQuery), VI_NULL); //command for visa write operation
+	 status = viClear(instr);   //Please clear after every SCPI command
 	status = viWrite(instr, (ViBuf)Query1, (ViUInt32)strlen(Query1), VI_NULL); //command for visa write operation
 	
-    //status = viRead(instr, (ViBuf)idnResponse, 1024, &returnCount); // commands for visa read, uncomment when we want to use read opertation
-   //idnResponse[returnCount] = 0; //terminate the string properly //uncomment for visa read operation
+    status = viRead(instr, (ViBuf)idnResponse, 1024, &returnCount); // commands for visa read
+   idnResponse[returnCount] = 0; //terminate the string properly 
         
-  // sprintf (message, "%s", idnResponse); //uncomment when we want to use read opertation
-  //  MessagePopup ("Apex Technologies", message); //uncomment when we want to use read opertation
+   sprintf (message, "%s", idnResponse); 
+   MessagePopup ("Apex Technologies", message); 
 	 
 	 status = viClose (instr);
      status = viClose (defaultRM);
