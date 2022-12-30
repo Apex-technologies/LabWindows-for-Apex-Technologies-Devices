@@ -27,7 +27,7 @@ int main(void)
 {
 	//char idnQuery[] = "*IDN?\n";
 	
-	char Query1[40]="TLS[01]:TPDB09\n";
+	char Query1[40]="TLS[01]:TPDB09\n";     // please fill in the SCPI commands in correct format in the ""
 
 	ViUInt32 returnCount = 0;
 	char idnResponse[1024];
@@ -54,45 +54,17 @@ int main(void)
 	 status = viSetAttribute(instr, VI_ATTR_TERMCHAR, 10);
      status = viSetAttribute(instr, VI_ATTR_TERMCHAR_EN, 1);        
 
-    //status = viWrite(instr, (ViBuf)idnQuery, (ViUInt32)strlen(idnQuery), VI_NULL);
-	status = viWrite(instr, (ViBuf)Query1, (ViUInt32)strlen(Query1), VI_NULL);
+    //status = viWrite(instr, (ViBuf)idnQuery, (ViUInt32)strlen(idnQuery), VI_NULL); //command for visa write operation
+	status = viWrite(instr, (ViBuf)Query1, (ViUInt32)strlen(Query1), VI_NULL); //command for visa write operation
 	
-    status = viRead(instr, (ViBuf)idnResponse, 1024, &returnCount);
-   idnResponse[returnCount] = 0; //terminate the string properly
+    //status = viRead(instr, (ViBuf)idnResponse, 1024, &returnCount); // commands for visa read, uncomment when we want to use read opertation
+   //idnResponse[returnCount] = 0; //terminate the string properly //uncomment for visa read operation
         
-   sprintf (message, "%s", idnResponse);
-    MessagePopup ("Apex Technologies", message);
+  // sprintf (message, "%s", idnResponse); //uncomment when we want to use read opertation
+  //  MessagePopup ("Apex Technologies", message); //uncomment when we want to use read opertation
 	 
 	 status = viClose (instr);
      status = viClose (defaultRM);
-  /* viSetAttribute (instr, VI_ATTR_TCPIP_NODELAY, VI_TRUE);
-   
-   status = viRead (instr, (ViBuf)outputBuffer, 25, &count);
-   if (status < VI_SUCCESS)
-   {
-      printf("viRead failed with error code %x \n",status);
-      viClose(defaultRM);
-      exit (EXIT_FAILURE);
-   }
-
-   printf("The server response is:\n %s\n\n",outputBuffer);
-   status = viGetAttribute (instr, VI_ATTR_TCPIP_ADDR, outputBuffer);
-   printf(" Address:  %s\n",outputBuffer);
-   
-   status = viGetAttribute (instr, VI_ATTR_TCPIP_HOSTNAME, outputBuffer);
-   printf(" Host Name:  %s\n",outputBuffer);
-   
-   status = viGetAttribute (instr, VI_ATTR_TCPIP_PORT, &portNo);
-   printf(" Port:  %d\n",portNo);
-   
-   status = viGetAttribute (instr, VI_ATTR_RSRC_CLASS, outputBuffer);
-   printf(" Resource Class:  %s\n",outputBuffer);
-
-   status = viClose (instr);
-   status = viClose (defaultRM);
-   printf ("\nHit enter to continue.");
-   fflush(stdin);
-   getchar();*/
-
+ 
    return 0;  
 }
